@@ -1,13 +1,6 @@
----
-title: Handwritten Text Recognition
-tags: CoderSchool, Mariana, Long_Dicky_Felix
----
+![](https://i.imgur.com/604P5ir.png)
 
-![](https://i.imgur.com/WJwdn08.png)
-
-# Handwritten Text Recognition
-
-## Introduction
+# Introduction
 
 This python application aims to convert **vietnamese handwritten text** (input) into **digital text** (output) with the highest **accuracy** as possible.
 
@@ -19,7 +12,7 @@ The **accuracy** of the convertion is based on 3 indicators:
 - percentage of **words** converted correctly
 - percentage of **sentences** converted correctly
 
-## 3 tasks can be achieved
+# 3 tasks can be achieved
 
 ![](https://i.imgur.com/kxmEaLZ.png)
 
@@ -27,21 +20,21 @@ The **accuracy** of the convertion is based on 3 indicators:
 2. **Convertion** ~ This model can convert new handwritting text images into digital text.
 3. **Evaluation** ~ The accuracy of this model can be computed
 
-## Model training schema
+# Model training schema
 
 ![](https://i.imgur.com/XFzb97N.png)
 
-### Preprocess images
+## Preprocess images
 
 okdf
 
-### Preprocess labels
+## Preprocess labels
 
 okdf
 
-### Prepare data for training
+## Prepare data for training
 
-### Model training
+## Model training
 
 # h1
 
