@@ -5,6 +5,7 @@ import os
 import pathlib
 import tensorflow as tf
 from tensorflow.keras.preprocessing.sequence import pad_sequences
+import numpy as np
 
 
 # Get images paths from origine folder
@@ -14,9 +15,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 # print(all_img_path[:5])
 
 def text_to_labels(text):
-  for c in text:
-    if letters.find(c) == -1:
-      print(c)
+#   return np.asarray(list(map(lambda x: letters.index(x), text)), dtype=np.uint8)
   return list(map(lambda x: letters.index(x), text))
 
 def label_to_text(labels):
@@ -77,21 +76,26 @@ def prepare_for_training(ds, cache=True, shuffle_buffer_size=100):
 
 # Import json labels file
 labels_json_file = './data/0916_Data Samples 2/labels.json'
-labels_json = pd.read_json(labels_json_file, orient='index').reset_index()
+labels_json = pd.read_json(labels_json_file, orient='index', encoding="utf-8").reset_index()
 labels_json.columns = ['name', 'label']
 
 # Set default variable
 max_len = 100 
 BATCH_SIZE = 32
 AUTOTUNE = tf.data.experimental.AUTOTUNE
-letters = " #'()+,-./:0123456789ABCDEFGHIJKLMNOPQRSTUVWXYabcdeghiklmnopqrstuwvxyzÂÊÔàáâãèẹéêìíòóôõùúýăĐđĩũƠơưạảấầẫẩậắằẵặẻẽếềểễệỉịọỏốồổỗộớờởỡợụủỨứừửữựỳỵỷỹ"
+letters = " #'()+,-./:0123456789ABCDEFGHIJKLMNOPQRSTUVWXYabcdeghiklmnopqrstwuvxyzÂÊÔàáâãèéêẹìíòóôõùúýăĐđĩũƠơưạảấầẩẫậắằẵặẻẽếềểễệỉịọỏốồổỗộớờởỡợụủỨứừửữựỳỵỷỹ"
 
 train_folder = './data/train'
 raw_folder = pathlib.Path(train_folder)
 all_img_path = [str(item) for item in raw_folder.glob('*/') if item.is_file()]
+all_img_label = get_label(all_img_path)
 
-all_img_labels = get_label(all_img_path)
-print(all_img_labels[:5])
+
+
+train_ds = tf.data.Dataset.from_tensor_slices((all_img_path, all_img_label))
+train_ds = train_ds.map(load_and_preprocess_from_path_label, num_parallel_calls=AUTOTUNE)
+train_ds = prepare_for_training(train_ds, shuffle_buffer_size=100)
+
 
 
 if __name__=='__main__':
